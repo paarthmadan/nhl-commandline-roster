@@ -2,34 +2,48 @@ var request = require('request');
 var cheerio = require('cheerio');
 var names = [];
 var teamUrls = [];
+var teamNames = [];
 
 
 
 //fetches variety of team names, to output to users to choose from
 request("https://www.nhl.com/info/teams", function(err, resp, html){
 	var $ = cheerio.load(html);
-
+	//selects team names
 	$('a.team-city', 'section.marketing-block.marketing-body.teams').each(function(){
 		var teamHref = $(this).attr('href');
 		
-
 		teamUrls.push(teamHref);
-
-
 
 	});
 
 
+	//clean up teamUrls to isolate team name
 
-		console.log(teamUrls);
+	for(var x = 0; x < teamUrls.length; x++){
+
+		var tempName = teamUrls[x].split(".");
+
+		var firstSegment = tempName[0];
+
+		var finalString = "";
+		for(var i = 7; i < firstSegment.length; i++){
+			finalString += firstSegment[i];
+		}
+
+		teamNames.push(finalString);
+
+
+
+
+
+	}
+
+
+
+console.log(teamNames);
 
 });
-
-
-
-
-var teamUrl = "http://canadiens.nhl.com/club/roster.htm"
-
 
 //http request to team website
 
