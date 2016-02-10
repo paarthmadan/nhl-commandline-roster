@@ -3,7 +3,11 @@ var cheerio = require('cheerio');
 var urls = [];
 
 
-request('http://mapleleafs.nhl.com/club/roster.htm', function(err, resp, body){
+var teamUrl = "http://canadiens.nhl.com/club/roster.htm"
+
+var playerSearch = function(teamUrl){
+
+request(teamUrl, function(err, resp, body){
 	if(!err && resp.statusCode == 200){
 		
 		var $ = cheerio.load(body);
@@ -34,10 +38,14 @@ request('http://mapleleafs.nhl.com/club/roster.htm', function(err, resp, body){
 	}
 
 	else{
-		console.log(resp.statusCode);
+		console.log("failure");
 	}
 
 
 });
 
 
+}
+
+
+playerSearch(teamUrl);
