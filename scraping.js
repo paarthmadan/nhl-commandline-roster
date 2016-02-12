@@ -1,8 +1,12 @@
 var request = require('request');
 var cheerio = require('cheerio');
+var prompt = require('prompt');
 var names = [];
 var teamUrls = [];
 var teamNames = [];
+
+
+
 
 
 
@@ -19,7 +23,6 @@ request("https://www.nhl.com/info/teams", function(err, resp, html){
 
 
 	//clean up teamUrls to isolate team name
-
 	for(var x = 0; x < teamUrls.length; x++){
 
 		var tempName = teamUrls[x].split(".");
@@ -32,16 +35,11 @@ request("https://www.nhl.com/info/teams", function(err, resp, html){
 		}
 
 		teamNames.push(finalString);
-
-
-
-
-
 	}
 
 
+startProgram();
 
-console.log(teamNames);
 
 });
 
@@ -87,5 +85,28 @@ request(teamUrl, function(err, resp, body){
 
 }
 
-//calls function with given teamUrl
-// playerSearch(teamUrl);
+var startProgram = function(){
+console.log("NHL Teams to view:");
+
+for(var z = 0; z < teamNames.length; z++){
+	console.log(teamNames[z]);
+}
+
+//use prompt to ask users for teamname
+prompt.start();
+prompt.get(['TeamName'], function (err, result) {
+
+    var teamFinal = result.TeamName;
+    var finalUrl = "http://"+ teamFinal + ".nhl.com/club/roster.htm";
+    // console.log(finalUrl);
+
+
+//calls function with team url
+    playerSearch(finalUrl);
+
+    
+  });
+
+
+
+}
