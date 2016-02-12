@@ -1,6 +1,10 @@
+//requires dependencies
+
 var request = require('request');
 var cheerio = require('cheerio');
 var prompt = require('prompt');
+
+//create arrays
 var names = [];
 var teamUrls = [];
 var teamNames = [];
@@ -37,7 +41,7 @@ request("https://www.nhl.com/info/teams", function(err, resp, html){
 		teamNames.push(finalString);
 	}
 
-
+//calls function, to start user-based interactions
 startProgram();
 
 
@@ -79,6 +83,14 @@ request(teamUrl, function(err, resp, body){
 	//error message
 	else{
 		console.log("failure");
+		//if error, prints status code
+		console.log(resp.statusCode);
+
+		if(resp.statusCode == 404){
+			console.log("Incorrect TeamName (Ensure spelling, and casing is correct)");
+		}
+
+
 	}
 });
 
