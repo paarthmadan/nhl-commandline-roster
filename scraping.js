@@ -51,21 +51,23 @@ startProgram();
 
 var playerSearch = function(teamUrl){
 
+	console.log("Players on team:");
+
+
 request(teamUrl, function(err, resp, body){
 	if(!err && resp.statusCode == 200){
 		//store DOM into var
 		var $ = cheerio.load(body);
+
+
 		//scrape using selectors
 		$('a', '.data').each(function(){
 			var name = $(this).text();
 			names.push(name);
-
-
-
-
-
 		});
 
+
+		
 
 		//clean using collection of if statements
 		for(var i = 0; i < names.length; i++){
@@ -73,10 +75,18 @@ request(teamUrl, function(err, resp, body){
 			var firstChar = names[i].charAt(0);
 			var secondChar = names[i].charAt(1);
 			var thirdChar = names[i].charAt(2);
+			
 
 			if(firstChar != '\n' && firstChar != '#' && firstChar + secondChar + thirdChar != "Age"){
+				
 				console.log(names[i]);
+				
+				
+				
 			}
+
+
+
 		}
 
 	}
@@ -87,7 +97,7 @@ request(teamUrl, function(err, resp, body){
 		console.log(resp.statusCode);
 
 		if(resp.statusCode == 404){
-			console.log("Incorrect TeamName (Ensure spelling, and casing is correct)");
+			console.log("Incorrect team name (Ensure spelling, and casing is correct)");
 		}
 
 
@@ -98,11 +108,24 @@ request(teamUrl, function(err, resp, body){
 }
 
 var startProgram = function(){
-console.log("NHL Teams to view:");
+console.log("\n" + "NHL Teams to View:" + "\n");
+
+ var printedCounter = 1;
 
 for(var z = 0; z < teamNames.length; z++){
-	console.log(teamNames[z]);
+
+
+	process.stdout.write(teamNames[z] + "    ");
+	if(printedCounter % 5 == 0){
+		console.log();
+	}
+
+	printedCounter++;
 }
+
+
+console.log("\n" + "Type team name, as written above" + "\n");
+
 
 //use prompt to ask users for teamname
 prompt.start();
@@ -118,7 +141,5 @@ prompt.get(['TeamName'], function (err, result) {
 
     
   });
-
-
 
 }
