@@ -9,9 +9,10 @@ var names = [];
 var playerUrls = [];
 var teamUrls = [];
 var teamNames = [];
+var stats = [];
 
 
-
+var longStringCheck = "\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\tShoots:\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t";
 
 
 
@@ -32,20 +33,18 @@ request("https://www.nhl.com/info/teams", function(err, resp, html){
 	for(var x = 0; x < teamUrls.length; x++){
 
 		var tempName = teamUrls[x].split(".");
-
 		var firstSegment = tempName[0];
-
 		var finalString = "";
-		for(var i = 7; i < firstSegment.length; i++){
-			finalString += firstSegment[i];
-		}
+
+			for(var i = 7; i < firstSegment.length; i++){
+				finalString += firstSegment[i];
+			}
 
 		teamNames.push(finalString);
 	}
 
 //calls function, to start user-based interactions
-startProgram();
-
+		startProgram();
 
 });
 
@@ -111,8 +110,6 @@ request(teamUrl, function(err, resp, body){
 });
 
 
-
-
 }
 
 
@@ -135,7 +132,7 @@ var playerStats = function(teamFinal){
 		var playerIndexNumber;
 	var indexFound = false;
 	var counter = 0;
-	while(indexFound == false || counter >= names.length){
+	while(indexFound == false){
 		if(names[counter] == currentName){
 			indexFound = true;
 			playerIndexNumber = counter;
@@ -146,17 +143,69 @@ var playerStats = function(teamFinal){
 	}
 
 
-	console.log(teamFinal + ".nhl.com" + playerUrls[playerIndexNumber]);
+	var playerStatsUrl = "http://" + teamFinal + ".nhl.com" + playerUrls[playerIndexNumber];
+	// console.log(playerStatsUrl);
+
+	request(playerStatsUrl, function(err, resp, html){
+
+			if(!err && resp.statusCode == 200){
+
+				var $ = cheerio.load(html);
+
+				$('div.plyrTmbStatLine', 'div#tombstoneStats').each(function(){
+
+					//string filtering and cleaning
+
+					var text = $(this).text();
+					var split = text.split(" ");
+					var pusher;
+					var subject = split[0];
+
+
+					if(subject == "Number:"){
+						pusher = split[1];
+					}else if(subject == "Height:"){
+						pusher = split[1] + split[2];
+					}else if(subject == "Weight:"){
+						pusher = split[1];
+					}else if(subject == longStringCheck){
+						pusher = split[1];
+					}else if(subject == "\n\t\t\t\t\t\t\t\t\t\t\tBorn:"){
+						pusher = split[1] + " "+ split[2] +" "+ split[3].substring(0,4);
+					}else if(subject == "Birthplace:"){
+						pusher = split[1] + " " + split[2]+ " "+ split[3]; 
+						// + split[4];
+					}
+					
+					stats.push(pusher);
+				
+				});
+				
+
+				console.log("\n" + "Player Statistics:" + "\n");
+
+				process.stdout.write("Jersey Number: " + stats[0] + "\n");
+				process.stdout.write("       Height: " + stats[1] + "\n");
+				process.stdout.write("       Weight: " + stats[2] + "\n");
+				process.stdout.write("Shooting Hand: " + stats[3] + "\n");
+				process.stdout.write("Date of Birth: " + stats[4] + "\n");
+				process.stdout.write("Area of Birth: " + stats[5] + "\n\n");
+
+
+			}else{
+				console.log("error");
+			}
 
 
 
 	});
 
-	
+
+
+
+	});	
 
 }
-
-
 
 var startProgram = function(){
 console.log("\n" + "NHL Teams to View:" + "\n");
