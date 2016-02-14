@@ -6,6 +6,7 @@ var prompt = require('prompt');
 
 //create arrays
 var names = [];
+var playerUrls = [];
 var teamUrls = [];
 var teamNames = [];
 
@@ -49,7 +50,7 @@ startProgram();
 
 //http request to team website
 
-var playerSearch = function(teamUrl){
+var playerSearch = function(teamUrl, teamFinal){
 
 	console.log("Players on team:");
 
@@ -62,6 +63,8 @@ request(teamUrl, function(err, resp, body){
 
 		//scrape using selectors
 		$('a', '.data').each(function(){
+			var href = $(this).attr('href');
+			playerUrls.push(href);
 			var name = $(this).text();
 			names.push(name);
 		});
@@ -80,7 +83,7 @@ request(teamUrl, function(err, resp, body){
 			if(firstChar != '\n' && firstChar != '#' && firstChar + secondChar + thirdChar != "Age"){
 				
 				console.log(names[i]);
-				
+				console.log("http://" + teamFinal + ".nhl.com" + playerUrls[i]);
 				
 				
 			}
@@ -137,7 +140,7 @@ prompt.get(['TeamName'], function (err, result) {
 
 
 //calls function with team url
-    playerSearch(finalUrl);
+    playerSearch(finalUrl , teamFinal);
 
     
   });
