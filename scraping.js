@@ -17,6 +17,7 @@ var teamNames = [];
 
 //fetches variety of team names, to output to users to choose from
 request("https://www.nhl.com/info/teams", function(err, resp, html){
+	prompt.start();
 	var $ = cheerio.load(html);
 	//selects team names
 	$('a.team-city', 'section.marketing-block.marketing-body.teams').each(function(){
@@ -83,7 +84,7 @@ request(teamUrl, function(err, resp, body){
 			if(firstChar != '\n' && firstChar != '#' && firstChar + secondChar + thirdChar != "Age"){
 				
 				console.log(names[i]);
-				console.log("http://" + teamFinal + ".nhl.com" + playerUrls[i]);
+				
 				
 				
 			}
@@ -91,7 +92,7 @@ request(teamUrl, function(err, resp, body){
 
 
 		}
-
+		playerStats(teamFinal);
 	}
 	//error message
 	else{
@@ -105,10 +106,57 @@ request(teamUrl, function(err, resp, body){
 
 
 	}
+
+
 });
 
 
+
+
 }
+
+
+var playerStats = function(teamFinal){
+
+	var currentName;
+
+
+	
+	console.log("\n" + "Enter players name, as seen above (correct spelling and casing!)" + "\n");
+
+
+	
+	prompt.get(['plrName'], function (err,result){
+		var name = result.plrName;
+		currentName = name;
+
+
+
+		var playerIndexNumber;
+	var indexFound = false;
+	var counter = 0;
+	while(indexFound == false || counter >= names.length){
+		if(names[counter] == currentName){
+			indexFound = true;
+			playerIndexNumber = counter;
+		}
+
+
+		counter++;
+	}
+
+
+	console.log(teamFinal + ".nhl.com" + playerUrls[playerIndexNumber]);
+
+
+
+	});
+
+	
+
+}
+
+
 
 var startProgram = function(){
 console.log("\n" + "NHL Teams to View:" + "\n");
@@ -131,7 +179,7 @@ console.log("\n" + "Type team name, as written above" + "\n");
 
 
 //use prompt to ask users for teamname
-prompt.start();
+
 prompt.get(['TeamName'], function (err, result) {
 
     var teamFinal = result.TeamName;
