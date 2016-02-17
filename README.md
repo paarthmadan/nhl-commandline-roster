@@ -14,9 +14,9 @@ Fetches teams, players, and background information.
 Fetching player's technical statistics. Shortcuts will be implemented, and perhaps the creation of an NHL API.
 
 ### Packages Used
-require - https://www.npmjs.com/package/require
+request - https://www.npmjs.com/package/request
 ```sh
-$ npm install require
+$ npm install request
 ```
 cheerio - https://www.npmjs.com/package/cheerio
 ```sh
