@@ -9,7 +9,7 @@ var names = [];
 var playerUrls = [];
 var teamUrls = [];
 var teamNames = [];
-var stats = [];
+
 
 
 var longStringCheck = "\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\tShoots:\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t";
@@ -115,6 +115,11 @@ request(teamUrl, function(err, resp, body){
 
 var playerStats = function(teamFinal){
 
+	var stats = [];
+	var techStats = [];
+	var playerIndexNumber;
+
+
 	var currentName;
 
 
@@ -129,7 +134,7 @@ var playerStats = function(teamFinal){
 
 
 
-		var playerIndexNumber;
+		
 	var indexFound = false;
 	var counter = 0;
 	while(indexFound == false){
@@ -180,7 +185,6 @@ var playerStats = function(teamFinal){
 					stats.push(pusher);
 				
 				});
-				
 
 				console.log("\n" + "Player Statistics:" + "\n");
 
@@ -190,6 +194,9 @@ var playerStats = function(teamFinal){
 				process.stdout.write("Shooting Hand: " + stats[3] + "\n");
 				process.stdout.write("Date of Birth: " + stats[4] + "\n");
 				process.stdout.write("Area of Birth: " + stats[5] + "\n\n");
+				
+
+				
 
 
 			}else{
@@ -201,11 +208,41 @@ var playerStats = function(teamFinal){
 	});
 
 
+	var temp = playerUrls[playerIndexNumber];
+	var id = temp.split("=");
+
+	var tempLength = id.length;
+
+	var actualId = id[tempLength-1];
+
+
+	request("https://www.nhl.com/player" + playerUrls[playerIndexNumber] , function(err, resp, html){
+		console.log("success" + "\t" + "https://www.nhl.com/player/" + actualId);
+			var $ = cheerio.load(html);
+
+			$( 'span', 'td').each(function(){
+
+				var stat = $(this).text();
+
+				console.log(stat);
+
+
+			});
+
+
+	});
+
+
 
 
 	});	
 
 }
+
+
+
+
+
 
 var startProgram = function(){
 console.log("\n" + "NHL Teams to View:" + "\n");
