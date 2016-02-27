@@ -215,18 +215,17 @@ var playerStats = function(teamFinal){
 
 	var actualId = id[tempLength-1];
 
+	
 
-	request("https://www.nhl.com/player" + playerUrls[playerIndexNumber] , function(err, resp, html){
-		console.log("success" + "\t" + "https://www.nhl.com/player/" + actualId);
+
+	request("https://www.nhl.com/player/" + actualId , function(err, resp, html){
+		
 			var $ = cheerio.load(html);
+		
+			$('td[data-row=0]', 'tr[data-index=0]').each(function(){
+				var text = $(this).children().text();
 
-			$( 'span', 'td').each(function(){
-
-				var stat = $(this).text();
-
-				console.log(stat);
-
-
+				console.log(text);
 			});
 
 
