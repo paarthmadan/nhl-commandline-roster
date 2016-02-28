@@ -24,6 +24,8 @@ techHeadings = ["Year" ,"Games Played",
 				 "Game-winning goals", "Overtime Goals", 
 				 "Shots", "Shooting Percentage"];
 
+var longestLength = 21;
+
 
 //fetches variety of team names, to output to users to choose from
 request("https://www.nhl.com/info/teams", function(err, resp, html){
@@ -237,7 +239,16 @@ var playerStats = function(teamFinal){
 				
 			});
 
+
+			process.stdout.write("Technical Statistics:" + "\n")
+
 			for(var i = 0; i < 15; i++){
+				var diff = longestLength-techHeadings[i].length;
+
+				for(var j = 0; j < diff; j++){
+					process.stdout.write(" ");
+				}
+
 				process.stdout.write(techHeadings[i] + ":\t" + techStats[i] + "\n");
 			}
 
