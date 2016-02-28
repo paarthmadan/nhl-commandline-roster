@@ -12,8 +12,17 @@ var teamNames = [];
 
 
 
-var longStringCheck = "\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\tShoots:\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t";
 
+var longStringCheck = "\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\tShoots:\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t";
+var techHeadings = [];
+techHeadings = ["Year" ,"Games Played",
+				"Goals", "Assists",
+				 "Points", "+/-", 
+				 "Penalties in Minutes" , 
+				 "PowerPlay Goals", "PowerPlay Points",
+				 "Short-handed Goals" , "Short-handed Points",
+				 "Game-winning goals", "Overtime Goals", 
+				 "Shots", "Shooting Percentage"];
 
 
 //fetches variety of team names, to output to users to choose from
@@ -211,7 +220,7 @@ var playerStats = function(teamFinal){
 	var temp = playerUrls[playerIndexNumber];
 	var id = temp.split("=");
 
-	var tempLength = id.length;
+	 var tempLength = id.length;
 
 	var actualId = id[tempLength-1];
 
@@ -222,11 +231,16 @@ var playerStats = function(teamFinal){
 		
 			var $ = cheerio.load(html);
 		
-			$('td[data-row=0]', 'tr[data-index=0]').each(function(){
+			$('div[class="responsive-datatable__scrollable"]','div[class="player-overview__stats"]').find('tr[data-index="0"]').find('td[data-row=0]').each(function(){
 				var text = $(this).children().text();
-
-				console.log(text);
+				techStats.push(text);
+				
 			});
+
+			for(var i = 0; i < 15; i++){
+				process.stdout.write(techHeadings[i] + ":\t" + techStats[i] + "\n");
+			}
+
 
 
 	});
