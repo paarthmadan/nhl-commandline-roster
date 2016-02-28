@@ -24,6 +24,10 @@ techHeadings = ["Year" ,"Games Played",
 				 "Game-winning goals", "Overtime Goals", 
 				 "Shots", "Shooting Percentage"];
 
+var infoHeadings = ["Jersey Number", "Height", 
+					"Weight", "Shooting Hand", 
+					"Date of Birth", "Area of Birth"];
+
 var longestLength = 21;
 
 
@@ -199,12 +203,25 @@ var playerStats = function(teamFinal){
 
 				console.log("\n" + "Player Statistics:" + "\n");
 
-				process.stdout.write("Jersey Number: " + stats[0] + "\n");
-				process.stdout.write("       Height: " + stats[1] + "\n");
-				process.stdout.write("       Weight: " + stats[2] + "\n");
-				process.stdout.write("Shooting Hand: " + stats[3] + "\n");
-				process.stdout.write("Date of Birth: " + stats[4] + "\n");
-				process.stdout.write("Area of Birth: " + stats[5] + "\n\n");
+
+				for(var i = 0; i < 6; i++){
+					var diff = longestLength - infoHeadings[i].length;
+
+						for(var j = 0; j < diff; j++){
+							process.stdout.write(" ");
+						}
+
+					process.stdout.write(infoHeadings[i] + ":\t" + stats[i] + "\n");
+				}
+
+				process.stdout.write("\n");
+
+				// process.stdout.write("Jersey Number: " + stats[0] + "\n");
+				// process.stdout.write("       Height: " + stats[1] + "\n");
+				// process.stdout.write("       Weight: " + stats[2] + "\n");
+				// process.stdout.write("Shooting Hand: " + stats[3] + "\n");
+				// process.stdout.write("Date of Birth: " + stats[4] + "\n");
+				// process.stdout.write("Area of Birth: " + stats[5] + "\n\n");
 				
 
 				
@@ -240,7 +257,7 @@ var playerStats = function(teamFinal){
 			});
 
 
-			process.stdout.write("Technical Statistics:" + "\n")
+			process.stdout.write("\n" + "Technical Statistics:" + "\n")
 
 			for(var i = 0; i < 15; i++){
 				var diff = longestLength-techHeadings[i].length;
@@ -252,6 +269,7 @@ var playerStats = function(teamFinal){
 				process.stdout.write(techHeadings[i] + ":\t" + techStats[i] + "\n");
 			}
 
+			process.stdout.write("\n");
 
 
 	});
