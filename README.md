@@ -7,11 +7,13 @@
   - Fetches all current teams in the NHL
   - Fetches players on respective teams
   - Fetches players background information, and current statistics (+/- , points, goals etc.)
+  - Categorizes stats based on number (EG: points > 50, colour = red)
+  - Easy and short terminal commands, for fast and efficient stat watching!
 
 ### Current Status
-Fetches teams, players, and background information. 
+Fetches teams, players, background information and technical stats.
 ### What's Left
-Fetching player's technical statistics. Shortcuts will be implemented, and perhaps the creation of an NHL API.
+Categorization of Stats (EG: Colour Coordination of Amount of Points), Shortcuts, and perhaps the creation of an NHL API.
 
 ### Packages Used
 request - https://www.npmjs.com/package/request
