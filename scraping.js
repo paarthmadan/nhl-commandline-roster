@@ -216,11 +216,15 @@ var playerStats = function(teamFinal){
 				for(var i = 0; i < 6; i++){
 					var diff = longestLength - infoHeadings[i].length;
 
-						for(var j = 0; j < diff; j++){
-							process.stdout.write(" ");
-						}
+						if(stats[i] != null)
+						{
+								for(var j = 0; j < diff; j++){
+									process.stdout.write(" ");
+								}
 
-					process.stdout.write(infoHeadings[i] + ":\t" + stats[i] + "\n");
+						
+							process.stdout.write(infoHeadings[i] + ":\t" + stats[i] + "\n");
+						}
 				}
 
 				process.stdout.write("\n");
@@ -277,14 +281,17 @@ var playerStats = function(teamFinal){
 				// 	colour = setColour;
 				// }else if...
 
+				if(techStats[i] != null){
+
+						for(var j = 0; j < diff; j++){
+							process.stdout.write(" ");
+						}
 
 
-				for(var j = 0; j < diff; j++){
-					process.stdout.write(" ");
+						process.stdout.write(techHeadings[i] + ":\t" + techStats[i] + "\n");
+						//chalk.cyan(process.stdout.write("debug"));
+
 				}
-
-				process.stdout.write(techHeadings[i] + ":\t" + techStats[i] + "\n");
-				//chalk.cyan(process.stdout.write("debug"));
 			}
 
 			process.stdout.write("\n");
