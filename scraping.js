@@ -154,7 +154,7 @@ var playerStats = function(teamFinal){
 	var indexFound = false;
 	var counter = 0;
 	while(indexFound == false){
-		if(names[counter] == currentName){
+		if(names[counter].toUpperCase() == currentName.toUpperCase()){
 			indexFound = true;
 			playerIndexNumber = counter;
 		}
@@ -203,6 +203,14 @@ var playerStats = function(teamFinal){
 				});
 
 				console.log("\n" + "Player Statistics:" + "\n");
+
+
+				var diff = longestLength - names[playerIndexNumber].length;
+				for(var j = 0; j < diff; j++){
+							process.stdout.write(" ");
+						}
+				process.stdout.write("Name:\t" + names[playerIndexNumber]);
+
 
 
 				for(var i = 0; i < 6; i++){
@@ -268,8 +276,6 @@ var playerStats = function(teamFinal){
 				// if(analysisVar > definedPoints){
 				// 	colour = setColour;
 				// }else if...
-
-
 
 
 
