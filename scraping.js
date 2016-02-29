@@ -269,6 +269,20 @@ var playerStats = function(teamFinal){
 				
 			});
 
+			$('li[class="player-bio__item"]' , 'ul[class="player-bio__list"]').find('span[class="player-bio__label"]').each(function(){
+
+			
+
+				var gloveText = $(this).text();
+				
+				if(gloveText == "Gloves:"){
+					var isGoalie = true;
+					// console.log("Goalie detected");
+				}
+
+
+			});
+
 
 			process.stdout.write("\n" + "Technical Statistics:" + "\n")
 
