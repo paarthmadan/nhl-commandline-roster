@@ -205,11 +205,11 @@ var playerStats = function(teamFinal){
 				console.log("\n" + "Player Statistics:" + "\n");
 
 
-				var diff = longestLength - names[playerIndexNumber].length;
+				var diff = longestLength - "Name".length;
 				for(var j = 0; j < diff; j++){
 							process.stdout.write(" ");
 						}
-				process.stdout.write("Name:\t" + names[playerIndexNumber]);
+				process.stdout.write("Name:\t" + names[playerIndexNumber] + "\n");
 
 
 
