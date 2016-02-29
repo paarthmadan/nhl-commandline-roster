@@ -3,6 +3,7 @@
 var request = require('request');
 var cheerio = require('cheerio');
 var prompt = require('prompt');
+var chalk = require('chalk');
 
 //create arrays
 var names = [];
@@ -261,12 +262,23 @@ var playerStats = function(teamFinal){
 
 			for(var i = 0; i < 15; i++){
 				var diff = longestLength-techHeadings[i].length;
+				// var analysisVar = techHeadings[i];
+				// var colour;
+
+				// if(analysisVar > definedPoints){
+				// 	colour = setColour;
+				// }else if...
+
+
+
+
 
 				for(var j = 0; j < diff; j++){
 					process.stdout.write(" ");
 				}
 
 				process.stdout.write(techHeadings[i] + ":\t" + techStats[i] + "\n");
+				//chalk.cyan(process.stdout.write("debug"));
 			}
 
 			process.stdout.write("\n");
