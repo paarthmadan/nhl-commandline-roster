@@ -12,8 +12,6 @@ var teamUrls = [];
 var teamNames = [];
 
 
-
-
 var longStringCheck = "\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\tShoots:\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t";
 var techHeadings = [];
 techHeadings = ["Year" ,"Games Played",
@@ -71,56 +69,47 @@ var playerSearch = function(teamUrl, teamFinal){
 	console.log("Players on team:");
 
 
-request(teamUrl, function(err, resp, body){
-	if(!err && resp.statusCode == 200){
-		//store DOM into var
-		var $ = cheerio.load(body);
-
-
-		//scrape using selectors
-		$('a', '.data').each(function(){
-			var href = $(this).attr('href');
-			playerUrls.push(href);
-			var name = $(this).text();
-			names.push(name);
-		});
-
-
-		
-
-		//clean using collection of if statements
-		for(var i = 0; i < names.length; i++){
-
-			var firstChar = names[i].charAt(0);
-			var secondChar = names[i].charAt(1);
-			var thirdChar = names[i].charAt(2);
+		request(teamUrl, function(err, resp, body){
 			
+			if(!err && resp.statusCode == 200){
+				//store DOM into var
+				var $ = cheerio.load(body);
 
-			if(firstChar != '\n' && firstChar != '#' && firstChar + secondChar + thirdChar != "Age"){
-				
-				console.log(names[i]);
-				
-				
-				
+						//scrape using selectors
+						$('a', '.data').each(function(){
+							var href = $(this).attr('href');
+							playerUrls.push(href);
+							var name = $(this).text();
+							names.push(name);
+						});
+
+
+						//clean using collection of if statements
+						for(var i = 0; i < names.length; i++){
+
+							var firstChar = names[i].charAt(0);
+							var secondChar = names[i].charAt(1);
+							var thirdChar = names[i].charAt(2);
+							
+
+								if(firstChar != '\n' && firstChar != '#' && firstChar + secondChar + thirdChar != "Age"){
+									console.log(names[i]);
+								}
+
+							}
+						
+						playerStats(teamFinal);
+					}
+			//error message
+			else{
+				console.log("failure");
+				//if error, prints status code
+				console.log(resp.statusCode);
+
+					if(resp.statusCode == 404){
+						console.log("Incorrect team name (Ensure spelling, and casing is correct)");
+					}
 			}
-
-
-
-		}
-		playerStats(teamFinal);
-	}
-	//error message
-	else{
-		console.log("failure");
-		//if error, prints status code
-		console.log(resp.statusCode);
-
-		if(resp.statusCode == 404){
-			console.log("Incorrect team name (Ensure spelling, and casing is correct)");
-		}
-
-
-	}
 
 
 });
@@ -154,10 +143,11 @@ var playerStats = function(teamFinal){
 	var indexFound = false;
 	var counter = 0;
 	while(indexFound == false){
-		if(names[counter].toUpperCase() == currentName.toUpperCase()){
-			indexFound = true;
-			playerIndexNumber = counter;
-		}
+			
+			if(names[counter].toUpperCase() == currentName.toUpperCase()){
+				indexFound = true;
+				playerIndexNumber = counter;
+			}
 
 
 		counter++;
@@ -171,75 +161,72 @@ var playerStats = function(teamFinal){
 
 			if(!err && resp.statusCode == 200){
 
-				var $ = cheerio.load(html);
+					var $ = cheerio.load(html);
 
-				$('div.plyrTmbStatLine', 'div#tombstoneStats').each(function(){
+					$('div.plyrTmbStatLine', 'div#tombstoneStats').each(function(){
 
-					//string filtering and cleaning
+						//string filtering and cleaning
 
-					var text = $(this).text();
-					var split = text.split(" ");
-					var pusher;
-					var subject = split[0];
-
-
-					if(subject == "Number:"){
-						pusher = split[1];
-					}else if(subject == "Height:"){
-						pusher = split[1] + split[2];
-					}else if(subject == "Weight:"){
-						pusher = split[1];
-					}else if(subject == longStringCheck){
-						pusher = split[1];
-					}else if(subject == "\n\t\t\t\t\t\t\t\t\t\t\tBorn:"){
-						pusher = split[1] + " "+ split[2] +" "+ split[3].substring(0,4);
-					}else if(subject == "Birthplace:"){
-						pusher = split[1] + " " + split[2]+ " "+ split[3]; 
-						// + split[4];
-					}
-					
-					stats.push(pusher);
-				
-				});
-
-				console.log("\n" + "Player Statistics:" + "\n");
+						var text = $(this).text();
+						var split = text.split(" ");
+						var pusher;
+						var subject = split[0];
 
 
-				var diff = longestLength - "Name".length;
-				for(var j = 0; j < diff; j++){
-							process.stdout.write(" ");
-						}
-				process.stdout.write("Name:\t" + names[playerIndexNumber] + "\n");
-
-
-
-				for(var i = 0; i < 6; i++){
-					var diff = longestLength - infoHeadings[i].length;
-
-						if(stats[i] != null)
-						{
-								for(var j = 0; j < diff; j++){
-									process.stdout.write(" ");
-								}
-
+							if(subject == "Number:"){
+								pusher = split[1];
+							}else if(subject == "Height:"){
+								pusher = split[1] + split[2];
+							}else if(subject == "Weight:"){
+								pusher = split[1];
+							}else if(subject == longStringCheck){
+								pusher = split[1];
+							}else if(subject == "\n\t\t\t\t\t\t\t\t\t\t\tBorn:"){
+								pusher = split[1] + " "+ split[2] +" "+ split[3].substring(0,4);
+							}else if(subject == "Birthplace:"){
+								pusher = split[1] + " " + split[2]+ " "+ split[3]; 
+								// + split[4];
+							}
 						
-							process.stdout.write(infoHeadings[i] + ":\t" + stats[i] + "\n");
-						}
-				}
+						stats.push(pusher);
+					
+					});
 
-				process.stdout.write("\n");
-
-				// process.stdout.write("Jersey Number: " + stats[0] + "\n");
-				// process.stdout.write("       Height: " + stats[1] + "\n");
-				// process.stdout.write("       Weight: " + stats[2] + "\n");
-				// process.stdout.write("Shooting Hand: " + stats[3] + "\n");
-				// process.stdout.write("Date of Birth: " + stats[4] + "\n");
-				// process.stdout.write("Area of Birth: " + stats[5] + "\n\n");
-				
-
-				
+					console.log("\n" + "Player Statistics:" + "\n");
 
 
+					var diff = longestLength - "Name".length;
+
+					for(var j = 0; j < diff; j++){
+								process.stdout.write(" ");
+							}
+					process.stdout.write("Name:\t" + names[playerIndexNumber] + "\n");
+
+
+
+					for(var i = 0; i < 6; i++){
+						var diff = longestLength - infoHeadings[i].length;
+
+							if(stats[i] != null)
+							{
+									for(var j = 0; j < diff; j++){
+										process.stdout.write(" ");
+									}
+
+							
+								process.stdout.write(infoHeadings[i] + ":\t" + stats[i] + "\n");
+							}
+					}
+
+					process.stdout.write("\n");
+
+					// process.stdout.write("Jersey Number: " + stats[0] + "\n");
+					// process.stdout.write("       Height: " + stats[1] + "\n");
+					// process.stdout.write("       Weight: " + stats[2] + "\n");
+					// process.stdout.write("Shooting Hand: " + stats[3] + "\n");
+					// process.stdout.write("Date of Birth: " + stats[4] + "\n");
+					// process.stdout.write("Area of Birth: " + stats[5] + "\n\n");
+					
 			}else{
 				console.log("error");
 			}
@@ -295,17 +282,17 @@ var playerStats = function(teamFinal){
 				// 	colour = setColour;
 				// }else if...
 
-				if(techStats[i] != null){
+					if(techStats[i] != null){
 
-						for(var j = 0; j < diff; j++){
-							process.stdout.write(" ");
-						}
+							for(var j = 0; j < diff; j++){
+								process.stdout.write(" ");
+							}
 
 
-						process.stdout.write(techHeadings[i] + ":\t" + techStats[i] + "\n");
-						//chalk.cyan(process.stdout.write("debug"));
+							process.stdout.write(techHeadings[i] + ":\t" + techStats[i] + "\n");
+							//chalk.cyan(process.stdout.write("debug"));
 
-				}
+					}
 			}
 
 			process.stdout.write("\n");
@@ -334,9 +321,9 @@ for(var z = 0; z < teamNames.length; z++){
 
 
 	process.stdout.write(teamNames[z] + "    ");
-	if(printedCounter % 5 == 0){
-		console.log();
-	}
+		if(printedCounter % 5 == 0){
+			console.log();
+		}
 
 	printedCounter++;
 }
