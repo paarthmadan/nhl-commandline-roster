@@ -5,15 +5,15 @@
 ##### A command line interface, created by Paarth Madan, using Node.js
 
   - Fetches all current teams in the NHL
-  - Fetches players on respective teams
-  - Fetches players background information, and current statistics (+/- , points, goals etc.)
+  - Fetches players and goalies on respective teams
+  - Fetches players/goalies background information, and current statistics (+/- , points, goals, save % etc.)
   - Categorizes stats based on number (EG: points > 50, colour = red)
   - Easy and short terminal commands, for fast and efficient stat watching!
 
 ### Current Status
-Fetches teams, players, background information and technical stats.
+Fetches teams, players / goalies, background information and technical stats. Differentiates by type of player (RW, LW, Goalie)
 ### What's Left
-Categorization of Stats (EG: Colour Coordination of Amount of Points), Shortcuts, and perhaps the creation of an NHL API.
+Categorization of Stats (EG: Colour Coordination of Amount of Points), Shortcuts (command line '-h' style), and perhaps the creation of an NHL API.
 
 ### Packages Used
 request - https://www.npmjs.com/package/request
@@ -33,7 +33,7 @@ $ npm install prompt
 
 ### Development
 
-This project is being developed through the use of Node.js. Because of the frequent screen scraping, HTML, JS, and jQuery were also of use.
+This project is being developed through the use of Node.js (the only real dev language). Because of the frequent screen scraping, HTML, JS, and jQuery were also of use.
 
 #### Created by Paarth Madan
 
