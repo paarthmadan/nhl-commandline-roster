@@ -33,7 +33,7 @@ $ npm install prompt
 
 ### Development
 
-This project is being developed through the use of Node.js (the only real dev language). Because of the frequent screen scraping, HTML, JS, and jQuery were also of use.
+This project is being developed through the use of Node.js (the only real dev language =) ). Because of the frequent screen scraping, HTML, JS, and jQuery were also of use.
 
 #### Created by Paarth Madan
 
